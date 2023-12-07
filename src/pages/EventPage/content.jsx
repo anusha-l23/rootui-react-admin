@@ -128,7 +128,7 @@ class Content extends Component {
                                 <label htmlFor="customRadio1">5K Run - SANTA RUN</label>
                             </div>
                             <div>
-                                <label htmlFor="customRadio1"className="custom-radio-label">700.00 INR</label>
+                                <label htmlFor="customRadio1">700.00 INR</label>
                             </div>
                         </div>
                         <div className="mx-4">
@@ -145,7 +145,7 @@ class Content extends Component {
                         <div className="d-flex flex-row justify-content-between mx-5 align-items-center">
                             <div className="d-flex-inline">
                                 <input type="radio" id="customRadio2" style={ { transform: 'scale(1.5)', marginRight: "0.5em" } } value="10K Run - SANTA RUN" checked={ selectEvent === "10K Run - SANTA RUN" } onChange={ ( e ) => this.setState( { selectEvent: e.target.value } ) } />
-                                <label htmlFor="customRadio2" className="custom-radio-label">10K Run - SANTA RUN</label>
+                                <label htmlFor="customRadio2">10K Run - SANTA RUN</label>
                             </div>
                             <div>
                                 <label htmlFor="customRadio2">800.00 INR</label>
@@ -165,10 +165,10 @@ class Content extends Component {
                         <div className="d-flex flex-row justify-content-between mx-5 align-items-center">
                             <div className="d-flex-inline">
                                 <input type="radio" id="customRadio3" style={ { transform: 'scale(1.5)', marginRight: "0.5em" } } value="21.1K RUN - SANTA RUN" checked={ selectEvent === "21.1K RUN - SANTA RUN" } onChange={ ( e ) => this.setState( { selectEvent: e.target.value } ) } />
-                                <label htmlFor="customRadio3" className="custom-radio-label">21.1K RUN - SANTA RUN</label>
+                                <label htmlFor="customRadio3">21.1K RUN - SANTA RUN</label>
                             </div>
                             <div>
-                                <label htmlFor="customRadio3" className="custom-radio-label">900.00 INR</label>
+                                <label htmlFor="customRadio3">900.00 INR</label>
                             </div>
                         </div>
                         <div className="mx-4">
@@ -184,10 +184,10 @@ class Content extends Component {
                         <div className="d-flex flex-row justify-content-between mx-5 align-items-center">
                             <div className="d-flex-inline">
                                 <input type="radio" id="customRadio4" style={ { transform: 'scale(1.5)', marginRight: "0.5em" } } value="50K CYCLING" checked={ selectEvent === "50K CYCLING" } onChange={ ( e ) => this.setState( { selectEvent: e.target.value } ) } />
-                                <label htmlFor="customRadio4" className="custom-radio-label">50K CYCLING</label>
+                                <label htmlFor="customRadio4">50K CYCLING</label>
                             </div>
                             <div>
-                                <label htmlFor="customRadio4" className="custom-radio-label">800.00 INR</label>
+                                <label htmlFor="customRadio4">800.00 INR</label>
                             </div>
                         </div>
                         <div className="mx-4">
