@@ -4,7 +4,7 @@
 // Auth
 import AuthSignIn from './AuthSignIn';
 import AuthSignUp from './AuthSignUp';
-
+import EventPage from './EventPage';
 // Start
 import Dashboard from './Dashboard';
 
@@ -73,7 +73,7 @@ import FormsMarkdown from './FormsMarkdown';
 export default {
     '/sign-in': AuthSignIn,
     '/sign-up': AuthSignUp,
-
+    '/event-page': EventPage,
     '/': Dashboard,
 
     // Apps

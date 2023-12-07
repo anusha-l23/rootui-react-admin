@@ -215,7 +215,7 @@ class Content extends Component {
                     </div>
                 </div>
                 <div className="mt-20 text-grey-5">
-                    Don&apos;t you have an account? <Link to="/sign-up" className="text-2">Sign Up</Link>
+                    Don&apos;t you have an account? <Link to="/event-page" className="text-2">Sign Up</Link>
                 </div>
             </Fragment>
         );

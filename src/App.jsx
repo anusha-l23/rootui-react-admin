@@ -51,7 +51,7 @@ class PageWrap extends Component {
             check = window.location.hash.replace( /^#/g, '' );
         }
 
-        return check === '/sign-in' || check === '/sign-up';
+        return check === '/sign-in' || check === '/sign-up' || check === '/event-page';
     }
 
     maybeCheckAuth( prevProps ) {
