@@ -36,12 +36,19 @@
         "eqeqeq": "error",
         "func-call-spacing": "error",
         "indent": ["error", 4],
+        "jsx-a11y/no-onchange": [
+            "error",
+            {
+              "ignoreInputFields": ["select"]
+            }
+          ],
         "jsx-a11y/label-has-for": [
             "error",
             {
                 "required": "id"
             }
         ],
+       
         "jsx-a11y/media-has-caption": "off",
         "jsx-a11y/no-noninteractive-tabindex": "off",
         "jsx-a11y/role-has-required-aria-props": "off",

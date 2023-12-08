@@ -108,11 +108,11 @@ class Content extends Component {
 
         return (
             <Fragment>
-                <div className="bg-image">
+                { /* <div className="bg-image">
                     <div className="bg-grey-1" />
-                </div>
+                </div> */ }
                 <div className="App w-50">
-                    <div className="block-example border border-top-0 border-gray p-4 border-1">
+                    <div className="block-example border border-top-0 border-gray border-1" style={ { padding: "2em" } } >
                         <img alt="" loading="lazy" style={ { textAlign: "center" } } src="https://reg.myraceindia.com/uploads/MRTS/form_files/regn%20banner.6530ed45e038e6.12464360.png" tabIndex="0" height="200px" width="680px" data-component="image" role="presentation" />
                         <div className="text-color my-5 mx-4">Participants aged 65+ can register free of cost. Write to us <br /> at  <span style={ { textDecoration: "none", color: "#001Af5" } }>santarun2023.rcck@gmail.com</span> with age proof and on successful validation a coupon code will be issued for free registration</div>
                         <h3 className="text-center">LAST DATE FOR REGISTRATIONS - 26 Nov 2023</h3>
@@ -217,8 +217,8 @@ class Content extends Component {
                             <button type="button"className="btn btn-primary">Apply</button>
                         </div>
                     </div>
-                    <div style={ { marginTop: "1em" } }></div>
-                    <div className="block-example border border-top-0 border-gray p-4 border-1">
+                    
+                    <div className="block-example border border-top-0 border-gray border-1" style={ { padding: "2em" } } >
                         <div className="d-flex flex-row justify-content-between mx-5 align-items-center">
                             <div></div>
                             <img width="80px" alt="" src="https://myraceindia.com/Live_API/assets/jotform/MRTS_Logo_with_Powered_by.png" />
