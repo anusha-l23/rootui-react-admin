@@ -64,6 +64,16 @@ class Content extends Component {
               this.setState( { data: { ...this.state.data, [ name ]: checked },
               } );
               break;
+          case 'email': // Handle email input type
+              this.setState( {
+                  data: { ...this.state.data, [ name ]: value },
+              } );
+              break;
+          case 'date': // Handle email input type
+              this.setState( {
+                  data: { ...this.state.data, [ name ]: value },
+              } );
+              break;
           default:
               break;
           }
@@ -72,9 +82,7 @@ class Content extends Component {
     handleSubmit = async( e ) => {
         e.preventDefault();
         try {
-            await axios.post( "http://localhost:3001/santarun/register", {
-                data: this.state.data,
-                method: 'POST',
+            await axios.post( "http://localhost:3001/santarun/register", this.state.data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -252,14 +260,14 @@ class Content extends Component {
                                     </div>
                                     
                                     <div className="form-group col-md-6">
-                                        <label htmlFor="bib">Blood Group <span className="text-danger">*</span></label>
+                                        { /* <label htmlFor="bib">Blood Group <span className="text-danger">*</span></label> */ }
                                     </div>
                                     <div className="form-group col-md-6"> 
                                     </div>
                                     <div className="form-group col-md-6">
-                                        <select id="bloodgroup" className="" name="bloodGroup" style={ { width: "100%", padding: "0.4em", borderRadius: "7px", outline: "none", border: "1px solid lightgray", color: "gray" } }
+                                        { /* <select id="bloodgroup" className="" name="bloodGroup" style={ { width: "100%", padding: "0.4em", borderRadius: "7px", outline: "none", border: "1px solid lightgray", color: "gray" } }
                                             value={ data.bloodGroup }
-                                            onChange={ this.handleInputChange }
+                                            onBlur={ this.handleInputChange }
                                         >
                                             <option value="">Please Select</option>
                                             <option value="A+">A+</option>
@@ -270,8 +278,13 @@ class Content extends Component {
                                             <option value="AB-">AB-</option>
                                             <option value="O+">O+</option>
                                             <option value="O-">O-</option>
-                                        </select>
-                                        
+                                        </select> */ }
+                                        <label htmlFor="bloodgroup">BloodGroup <span className="text-danger">*</span></label>
+                                        <Input type="text" className="form-control" id="bloodgroup" name="bloodGroup"
+                                            value={ data.bloodGroup }
+                                            onChange={ this.handleInputChange }
+                                            
+                                        />
                                     </div>
                                     <div className="form-group col-md-6">
                                     </div>
