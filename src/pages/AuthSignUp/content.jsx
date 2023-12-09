@@ -43,12 +43,16 @@ class Content extends Component {
     //   handleMouseOut = () => {
     //       this.setState( { placeholder: "##########" } );
     //   };
- 
-      handleInputChange = ( e ) => {
+    
+      handleInputChange = (e) => {
           const { name, value, type, checked } = e.target;
+          if (e.target.nodeName === 'SELECT') {
+              this.setState({
+                  data: { ...this.state.data, [ name ]: value },
+              } );
+          }
           switch ( type ) {
           case 'text':
-          case 'select':
               this.setState( {
                   data: { ...this.state.data, [ name ]: value },
               } );
@@ -78,10 +82,14 @@ class Content extends Component {
               break;
           }
       };
-    
+
     handleSubmit = async( e ) => {
         e.preventDefault();
         try {
+            /* eslint-disable */
+console.log(this.state.data);
+ /* eslint-enable */
+            
             await axios.post( "http://localhost:3001/santarun/register", this.state.data, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -98,7 +106,7 @@ class Content extends Component {
             <Fragment>
                 <>
                     <div className="App w-50 mx-auto">
-                        <div className="block-example border border-gray border-1" style={ { padding: "2em", margin: "1em" } } >
+                        <div className="block-example border border-gray border-1" style={ { padding: "2em", margin: "1em" } }>
                             <div className="text-center">
                                 <img alt="" loading="lazy" style={ { textAlign: "center" } } src="https://reg.myraceindia.com/uploads/MRTS/form_files/regn%20banner.6530ed45e038e6.12464360.png" tabIndex="0" height="200px" width="680px" data-component="image" role="presentation" />
                             </div>
@@ -265,9 +273,11 @@ class Content extends Component {
                                     <div className="form-group col-md-6"> 
                                     </div>
                                     <div className="form-group col-md-6">
-                                        { /* <select id="bloodgroup" className="" name="bloodGroup" style={ { width: "100%", padding: "0.4em", borderRadius: "7px", outline: "none", border: "1px solid lightgray", color: "gray" } }
+                                        <label htmlFor="bloodgroup">BloodGroup <span className="text-danger">*</span></label>
+                                        { /* eslint-disable */ }
+                                        <select id="bloodgroup" className="" name="bloodGroup" style={ { width: "100%", padding: "0.4em", borderRadius: "7px", outline: "none", border: "1px solid lightgray", color: "gray" } }
                                             value={ data.bloodGroup }
-                                            onBlur={ this.handleInputChange }
+                                            onChange={ this.handleInputChange }
                                         >
                                             <option value="">Please Select</option>
                                             <option value="A+">A+</option>
@@ -278,13 +288,15 @@ class Content extends Component {
                                             <option value="AB-">AB-</option>
                                             <option value="O+">O+</option>
                                             <option value="O-">O-</option>
-                                        </select> */ }
-                                        <label htmlFor="bloodgroup">BloodGroup <span className="text-danger">*</span></label>
-                                        <Input type="text" className="form-control" id="bloodgroup" name="bloodGroup"
+                                        </select>
+
+                                       
+                                        {/* eslint-enable */ }
+                                        { /* <Input type="text" className="form-control" id="bloodgroup" name="bloodGroup"
                                             value={ data.bloodGroup }
                                             onChange={ this.handleInputChange }
                                             
-                                        />
+                                        /> */ }
                                     </div>
                                     <div className="form-group col-md-6">
                                     </div>
@@ -342,9 +354,9 @@ class Content extends Component {
                                 <hr />
                                 <div className="block-example p-4">
                                     <div className="d-flex flex-row justify-content-between mx-5 align-items-center">
-                                        <Link to="/" className="backbutton">Back</Link>
+                                        <Link to="/event-page" className="btn btn-primary">Back</Link>
                                         <img width="80px" alt="" src="https://myraceindia.com/Live_API/assets/jotform/MRTS_Logo_with_Powered_by.png" />
-                                        <button className="nextbutton" type="submit">Submit</button>
+                                        <button className="btn btn-primary" type="submit">Signup</button>
                                     </div>
                                 </div>
                             </Form>

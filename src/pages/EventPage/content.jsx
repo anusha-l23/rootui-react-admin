@@ -222,7 +222,7 @@ class Content extends Component {
                         <div className="d-flex flex-row justify-content-between mx-5 align-items-center">
                             <div></div>
                             <img width="80px" alt="" src="https://myraceindia.com/Live_API/assets/jotform/MRTS_Logo_with_Powered_by.png" />
-                            <Link to="/sign-up" type="button"className="btn btn-primary"
+                            <Link to="sign-up" type="button"className="btn btn-primary"
                                 onClick={ this.handleNext }
                             >
                                 Next
