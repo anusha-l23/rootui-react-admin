@@ -623,6 +623,7 @@ class Content extends Component {
             users: [],
             selectedGender: "",
             selectedSize: "",
+            selectedAgeRange: "",
         };
         this.getChartjsOptions = this.getChartjsOptions.bind( this );
         this.getChartjsData = this.getChartjsData.bind( this );
@@ -735,6 +736,13 @@ handleGenderChange = ( e ) => {
 handleSizeChange = ( e ) => {
     this.setState({ selectedSize: e.target.value } );
 }
+handleAgeRangeChange = (e) => {
+    const selectedAgeRange = e.target.value;
+    this.setState({ selectedAgeRange });
+    /* eslint-disable */
+console.log(selectedAgeRange, "select age range");
+/* eslint-enable */
+}
 getAllUsers = async() => {
     try {
         const response = await axios.get("http://localhost:3001/santarun/users");
@@ -747,22 +755,47 @@ console.log(users, "users");
         throw error;
     }
 }
+calculateAge = (dateOfBirth)=> {
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+ageRanges = [
+    { label: '0-10', minAge: 0, maxAge: 10 },
+    { label: '11-20', minAge: 11, maxAge: 20 },
+    { label: '21-30', minAge: 21, maxAge: 30 },
+    { label: '31-40', minAge: 31, maxAge: 40 },
+    { label: '41-50', minAge: 41, maxAge: 50 },
+]
 
 render() {
-    // const filteredUsersByGender = this.state.users.filter( (user) => this.state.selectedGender === "" || 
-    // user.gender.toLowerCase() === this.state.selectedGender.toLowerCase());
-
-    // const filteredUsersBySize = this.state.users.filter(( user )=> this.state.selectedSize === "" || 
-    // user.tShirtSize.toLowerCase() === this.state.selectedSize.toLowerCase()
-    // );
-
-    // const displayUsers = this.state.selectedSize !== "" ? filteredUsersBySize : filteredUsersByGender;
-
+    { /* eslint-disable */}
     const displayUsers = this.state.users.filter(( user ) => {
         const genderCondition = this.state.selectedGender === "" || user.gender.toLowerCase() === this.state.selectedGender.toLowerCase();
         const sizeCondition = this.state.selectedSize === "" || user.tShirtSize.toLowerCase() === this.state.selectedSize.toLowerCase();
-        return genderCondition && sizeCondition;
+        const age = this.calculateAge(user.dateOfBirth);
+        
+        const ageCondition = this.state.selectedAgeRange === "" || this.ageRanges.some((range) => {
+            if (range.label === this.state.selectedAgeRange) {
+                const isInRange = age >= range.minAge && age <= range.maxAge; 
+                
+                console.log(range.label, isInRange, "isIn range"); 
+                
+                return isInRange;
+            }
+            return false;
+        });
+        console.log(user.firstName, ageCondition, "1st user age")
+        return genderCondition && sizeCondition && ageCondition;
     });
+    
+    console.log(displayUsers.map(user => this.calculateAge(user.dateOfBirth)), "ages");
+    { /* eslint-enable */}
     return (
         <Fragment>
             <div>
@@ -793,9 +826,21 @@ render() {
 <option value="L">L</option>
 <option value="XL">XL</option>
 <option value="XXL">XXL</option>
-
-
         </select>
+        </Col>
+        <Col>
+        <select
+    style={{ padding: "0.5em" }}
+    value={this.state.selectedAgeRange}
+    onChange={this.handleAgeRangeChange}
+>
+    <option value="">Select Age Range</option>
+    {this.ageRanges.map((range) => (
+        <option key={range.label} value={range.label}>
+            {range.label}
+        </option>
+    ))}
+</select>
         </Col>
                   </Row>
                   </Container>
