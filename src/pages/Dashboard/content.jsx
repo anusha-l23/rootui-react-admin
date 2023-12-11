@@ -4,10 +4,12 @@
 
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Chart } from 'react-chartjs-2';
+//import { Chart } from 'react-chartjs-2';
 //import { Row, Col } from 'reactstrap';
 import axios from "axios";
 import { Table, Container, Row, Col } from 'reactstrap';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 /**
  * Internal Dependencies
@@ -33,107 +35,107 @@ class Content extends Component {
             selectedEventName: "",
             events: [],
         };
-        this.getChartjsOptions = this.getChartjsOptions.bind( this );
-        this.getChartjsData = this.getChartjsData.bind( this );
-        this.getChartistOptions = this.getChartistOptions.bind( this );
+        // this.getChartjsOptions = this.getChartjsOptions.bind( this );
+        // this.getChartjsData = this.getChartjsData.bind( this );
+        // this.getChartistOptions = this.getChartistOptions.bind( this );
     }
 
-    getChartjsOptions( label ) {
-        return {
-            tooltips: {
-                mode: 'index',
-                intersect: false,
-                backgroundColor: '#393f49',
-                bodyFontSize: 11,
-                bodyFontColor: '#d7d9e0',
-                bodyFontFamily: "'Open Sans', sans-serif",
-                xPadding: 10,
-                yPadding: 10,
-                displayColors: false,
-                caretPadding: 5,
-                cornerRadius: 4,
-                callbacks: {
-                    title: () => {},
-                    label,
-                },
-            },
-            legend: {
-                display: false,
-            },
-            maintainAspectRatio: true,
-            spanGaps: false,
-            plugins: {
-                filler: {
-                    propagate: false,
-                },
-            },
-            scales: {
-                xAxes: [ { display: false } ],
-                yAxes: [ {
-                    display: false,
-                    ticks: {
-                        beginAtZero: true,
-                    },
-                } ],
-            },
-        };
-    }
+    // getChartjsOptions( label ) {
+    //     return {
+    //         tooltips: {
+    //             mode: 'index',
+    //             intersect: false,
+    //             backgroundColor: '#393f49',
+    //             bodyFontSize: 11,
+    //             bodyFontColor: '#d7d9e0',
+    //             bodyFontFamily: "'Open Sans', sans-serif",
+    //             xPadding: 10,
+    //             yPadding: 10,
+    //             displayColors: false,
+    //             caretPadding: 5,
+    //             cornerRadius: 4,
+    //             callbacks: {
+    //                 title: () => {},
+    //                 label,
+    //             },
+    //         },
+    //         legend: {
+    //             display: false,
+    //         },
+    //         maintainAspectRatio: true,
+    //         spanGaps: false,
+    //         plugins: {
+    //             filler: {
+    //                 propagate: false,
+    //             },
+    //         },
+    //         scales: {
+    //             xAxes: [ { display: false } ],
+    //             yAxes: [ {
+    //                 display: false,
+    //                 ticks: {
+    //                     beginAtZero: true,
+    //                 },
+    //             } ],
+    //         },
+    //     };
+    // }
 
-    getChartjsData( canvas, data, color = '#8e9fff' ) {
-        const ctx = canvas.getContext( '2d' );
-        const gradient = ctx.createLinearGradient( 0, 0, 0, 90 );
-        gradient.addColorStop( 0, Chart.helpers.color( color ).alpha( 0.1 ).rgbString() );
-        gradient.addColorStop( 1, Chart.helpers.color( color ).alpha( 0 ).rgbString() );
+    // getChartjsData( canvas, data, color = '#8e9fff' ) {
+    //     const ctx = canvas.getContext( '2d' );
+    //     const gradient = ctx.createLinearGradient( 0, 0, 0, 90 );
+    //     gradient.addColorStop( 0, Chart.helpers.color( color ).alpha( 0.1 ).rgbString() );
+    //     gradient.addColorStop( 1, Chart.helpers.color( color ).alpha( 0 ).rgbString() );
 
-        return {
-            labels: data,
-            datasets: [
-                {
-                    backgroundColor: gradient,
-                    borderColor: color,
-                    borderWidth: 2,
-                    pointHitRadius: 5,
-                    pointBorderWidth: 0,
-                    pointBackgroundColor: 'transparent',
-                    pointBorderColor: 'transparent',
-                    pointHoverBorderWidth: 0,
-                    pointHoverBackgroundColor: color,
-                    data,
-                },
-            ],
-        };
-    }
+    //     return {
+    //         labels: data,
+    //         datasets: [
+    //             {
+    //                 backgroundColor: gradient,
+    //                 borderColor: color,
+    //                 borderWidth: 2,
+    //                 pointHitRadius: 5,
+    //                 pointBorderWidth: 0,
+    //                 pointBackgroundColor: 'transparent',
+    //                 pointBorderColor: 'transparent',
+    //                 pointHoverBorderWidth: 0,
+    //                 pointHoverBackgroundColor: color,
+    //                 data,
+    //             },
+    //         ],
+    //     };
+    // }
 
-    getChartistOptions() {
-        return {
-            type: 'Pie',
-            options: {
-                donut: true,
-                showLabel: false,
-                donutWidth: 4,
-                width: 150,
-                height: 150,
-            },
-            listener: {
-                created( ctx ) {
-                    const defs = ctx.svg.elem( 'defs' );
-                    defs.elem( 'linearGradient', {
-                        id: 'gradient',
-                        x1: 0,
-                        y1: 1,
-                        x2: 0,
-                        y2: 0,
-                    } ).elem( 'stop', {
-                        offset: 0,
-                        'stop-color': '#8e9fff',
-                    } ).parent().elem( 'stop', {
-                        offset: 1,
-                        'stop-color': '#2bb7ef',
-                    } );
-                },
-            },
-        };
-    }
+    // getChartistOptions() {
+    //     return {
+    //         type: 'Pie',
+    //         options: {
+    //             donut: true,
+    //             showLabel: false,
+    //             donutWidth: 4,
+    //             width: 150,
+    //             height: 150,
+    //         },
+    //         listener: {
+    //             created( ctx ) {
+    //                 const defs = ctx.svg.elem( 'defs' );
+    //                 defs.elem( 'linearGradient', {
+    //                     id: 'gradient',
+    //                     x1: 0,
+    //                     y1: 1,
+    //                     x2: 0,
+    //                     y2: 0,
+    //                 } ).elem( 'stop', {
+    //                     offset: 0,
+    //                     'stop-color': '#8e9fff',
+    //                 } ).parent().elem( 'stop', {
+    //                     offset: 1,
+    //                     'stop-color': '#2bb7ef',
+    //                 } );
+    //             },
+    //         },
+    //     };
+    // }
     /**
  * @param {React.ChangeEvent<HTMLSelectElement>} e - The event object.
  */
@@ -200,6 +202,23 @@ ageRanges = [
     { label: '41-50', minAge: 41, maxAge: 50 },
 ]
 
+generatePDF = () => {
+    const input = document.getElementById("usersTable");
+    html2canvas(input)
+        .then((canvas)=>{
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jsPDF();
+            const imgWidth = 210;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+            pdf.save("users.pdf");
+        })
+        .catch((error)=> {
+            /* eslint-disable */
+            console.log("Error generating PDF: ", error);
+            /* eslint-enable */
+        });
+}
 render() {
     { /* eslint-disable */}
  
@@ -292,10 +311,13 @@ console.log(user.eventId, "user.eventId")
 <option value="50K CYCLING">50K CYCLING</option>
         </select>
         </Col>
+        <Col>
+        <button onClick={this.generatePDF} className='btn btn-primary'>Download<svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11l-5 5Zm-6 4q-.825 0-1.413-.588T4 18v-3h2v3h12v-3h2v3q0 .825-.588 1.413T18 20H6Z"></path></svg></button>
+        </Col>
                   </Row>
                   </Container>
                   {this.state.users.length > 0 && (
-            <Table responsive style={{marginTop:"1em"}}>
+            <Table responsive style={{marginTop:"1em"}} id="usersTable">
            
                 <thead>
                     <tr>
@@ -363,7 +385,6 @@ console.log(user.eventId, "user.eventId")
            </tbody>
             </Table>
                   )}
-
             { /* eslint-enable */ }
             </div>
         </Fragment>
