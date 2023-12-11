@@ -4,7 +4,7 @@
 //import classnames from 'classnames/dedupe';
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Form, Input } from 'reactstrap';
 import axios from "axios";
 /**
@@ -19,6 +19,8 @@ class Content extends Component {
         super( props );
 
         this.state = {
+            placeholder: "##########",
+            events: [],
             data: {
                 firstName: '',
                 lastName: '',
@@ -32,18 +34,58 @@ class Content extends Component {
                 contactName: "",
                 contactNumber: "",
                 acceptedTerms: false,
+                eventId: null,
             },
-            //  placeholder: "##########",
+           
         };
     }
-    // handleHover = () => {
-    //     this.setState( { placeholder: "----------" } );
-    // };
+    componentDidMount() {
+        this.fetchEvents();
+    }
     
-    //   handleMouseOut = () => {
-    //       this.setState( { placeholder: "##########" } );
-    //   };
+      fetchEvents = async() => {
+          try {
+              const response = await axios.get('http://localhost:3001/santarun/events');
+              this.setState({ events: response.data });
+          } catch (error) {
+              throw error;
+          }
+      };
+       
+      componentDidUpdate(prevProps, prevState) {
+          if (prevState.events !== this.state.events) {
+              this.updateEventId();
+          }
+      }
+
+    updateEventId = () => {
+        const { events } = this.state;
+        const params = new URLSearchParams(this.props.location.search);
+        const eventName = params.get('event');
+        /* eslint-disable */
+console.log(eventName, events, "event");
+    /* eslint-enable */
+        const selectedEvent = events.find(event => event.eventName === eventName);
+        /* eslint-disable */
+        console.log(selectedEvent, "selected");
+        /* eslint-disable */
+        if (selectedEvent) {
+            this.setState(prevState => ({
+                data: {
+                    ...prevState.data,
+                    eventId: selectedEvent.id,
+                },
+            }));
+        }
+    };
+    handleHover = () => {
+        this.setState( { placeholder: "----------" } );
+    };
     
+      handleMouseOut = () => {
+          this.setState( { placeholder: "##########" } );
+      };
+  
       handleInputChange = (e) => {
           const { name, value, type, checked } = e.target;
           if (e.target.nodeName === 'SELECT') {
@@ -68,12 +110,12 @@ class Content extends Component {
               this.setState( { data: { ...this.state.data, [ name ]: checked },
               } );
               break;
-          case 'email': // Handle email input type
+          case 'email':
               this.setState( {
                   data: { ...this.state.data, [ name ]: value },
               } );
               break;
-          case 'date': // Handle email input type
+          case 'date':
               this.setState( {
                   data: { ...this.state.data, [ name ]: value },
               } );
@@ -85,6 +127,10 @@ class Content extends Component {
 
     handleSubmit = async( e ) => {
         e.preventDefault();
+        const {
+            updateAuth,
+        } = this.props;
+
         try {
             /* eslint-disable */
 console.log(this.state.data);
@@ -95,6 +141,10 @@ console.log(this.state.data);
                     'Content-Type': 'application/json',
                 },
             } );
+            updateAuth( {
+                token: 'fake-token',
+            } );
+            this.props.history.push("/");
         } catch ( error ) {
             throw new Error;
         }
@@ -161,9 +211,9 @@ console.log(this.state.data);
                                     <div className="form-group col-md-6">
                                         <label htmlFor="mobilenumber">Mobile Number <span className="text-danger">*</span></label>
                                         <Input type="text"className="form-control" id="mobilenumber" name="mobileNumber" 
-                                            //placeholder={ this.state.placeholder }
-                                            //onMouseEnter={ this.handleHover }
-                                            //onMouseLeave={ this.handleMouseOut }
+                                            placeholder={ this.state.placeholder }
+                                            onMouseEnter={ this.handleHover }
+                                            onMouseLeave={ this.handleMouseOut }
                                             value={ data.mobileNumber }
                                             onChange={ this.handleInputChange }
                                         />
@@ -315,9 +365,9 @@ console.log(this.state.data);
                                     <div className="form-group col-md-6">
                                         <label htmlFor="emergencycontactnumber">Emergency Contact number <span className="text-danger">*</span></label>
                                         <Input type="text"className="form-control" id="emergencycontactnumber" name="contactNumber" 
-                                            // placeholder={ this.state.placeholder }
-                                            // onMouseEnter={ this.handleHover }
-                                            // onMouseLeave={ this.handleMouseOut }
+                                            placeholder={ this.state.placeholder }
+                                            onMouseEnter={ this.handleHover }
+                                            onMouseLeave={ this.handleMouseOut }
                                             value={ data.contactNumber }
                                             onChange={ this.handleInputChange }
                                         />
@@ -372,9 +422,15 @@ console.log(this.state.data);
     }
 }
 
-export default connect( ( { auth, settings } ) => (
-    {
-        auth,
-        settings,
-    }
-), { updateAuth: actionUpdateAuth } )( Content );
+const mapStateToProps = ({ auth, settings }) => ({
+    auth,
+    settings,
+});
+  
+const mapDispatchToProps = {
+    updateAuth: actionUpdateAuth,
+};
+  
+// Connect withRouter to your component
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Content)
+);

@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
  * Internal Dependencies
  */
 //import Icon from '../../components/icon';
-import { isValidEmail } from '../../utils';
+//import { isValidEmail } from '../../utils';
 
 import { updateAuth as actionUpdateAuth } from '../../actions';
 
@@ -26,69 +26,13 @@ class Content extends Component {
         this.state = {
             selectEvent: "",
         };
-
-        this.checkEmail = this.checkEmail.bind( this );
-        this.checkPassword = this.checkPassword.bind( this );
-        this.maybeLogin = this.maybeLogin.bind( this );
     }
 
-    checkEmail() {
-        const {
-            email,
-        } = this.state;
-
-        const isValid = email && isValidEmail( email );
-
-        this.setState( {
-            emailError: isValid ? '' : 'Invalid email format',
-        } );
-
-        return isValid;
-    }
-
-    checkPassword() {
-        const {
-            password,
-        } = this.state;
-
-        const isValid = password && password.length >= 6;
-
-        this.setState( {
-            passwordError: isValid ? '' : 'Password must be at least 6 characters long',
-        } );
-
-        return isValid;
-    }
-
-    maybeLogin() {
+    handleNext = async() => {
         const {
             updateAuth,
         } = this.props;
 
-        if ( this.state.loading ) {
-            return;
-        }
-
-        let isValid = true;
-        isValid = this.checkEmail() && isValid;
-        isValid = this.checkPassword() && isValid;
-
-        // Form is not valid.
-        if ( ! isValid ) {
-            return;
-        }
-
-        this.setState( {
-            loading: true,
-        }, () => {
-            setTimeout( () => {
-                updateAuth( {
-                    token: 'fake-token',
-                } );
-            }, 600 );
-        } );
-    }
-    handleNext = async() => {
         try {
             await axios.post( "http://localhost:3001/santarun/event", {
                 eventName: this.state.selectEvent,
@@ -96,6 +40,9 @@ class Content extends Component {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+            } );
+            updateAuth( {
+                token: 'fake-token',
             } );
         } catch ( error ) {
             throw new Error;
@@ -222,7 +169,7 @@ class Content extends Component {
                         <div className="d-flex flex-row justify-content-between mx-5 align-items-center">
                             <div></div>
                             <img width="80px" alt="" src="https://myraceindia.com/Live_API/assets/jotform/MRTS_Logo_with_Powered_by.png" />
-                            <Link to="sign-up" type="button"className="btn btn-primary"
+                            <Link to={ `/sign-up?event=${ selectEvent }` } className="btn btn-primary"
                                 onClick={ this.handleNext }
                             >
                                 Next
