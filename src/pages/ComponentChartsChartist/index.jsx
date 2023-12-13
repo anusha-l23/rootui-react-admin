@@ -37,10 +37,10 @@ class ComponentChartsChartistPage extends Component {
                             title: 'Bar',
                         }, {
                             to: '#pieGender',
-                            title: 'Pie',
+                            title: 'Pie_Gender',
                         }, {
                             to: '#pieSize',
-                            title: 'Pie',
+                            title: 'Pie_T-ShirtSize',
                         },
                     ] }
                 >

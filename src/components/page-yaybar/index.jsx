@@ -144,7 +144,7 @@ class PageYaybar extends Component {
                     <div className="yay-wrap-menu">
                         <div className="yaybar-wrap">
                             <ul>
-                                <li>
+                                { /* <li>
                                     <a href="../dashboard.html">
                                         <span
                                             className="yay-icon"
@@ -153,7 +153,7 @@ class PageYaybar extends Component {
                                         <span>Switch to HTML</span>
                                         <span className="rui-yaybar-circle"></span>
                                     </a>
-                                </li>
+                                </li> */ }
 
                                 { this.renderSubmenus( settings.navigation_sidebar ) }
 
