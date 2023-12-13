@@ -1,7 +1,7 @@
 /**
  * External Dependencies
  */
-//import classnames from 'classnames/dedupe';
+import classnames from 'classnames/dedupe';
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -21,6 +21,7 @@ class Content extends Component {
         this.state = {
             placeholder: "##########",
             events: [],
+            mobileNumberError: "",
             data: {
                 firstName: '',
                 lastName: '',
@@ -123,7 +124,25 @@ console.log(eventName, events, "event");
           default:
               break;
           }
-      };
+
+          switch (name) {
+            case 'mobileNumber':
+                if (type === 'text' && value.length === 10) {
+                    this.setState({
+                        data: { ...this.state.data, [name]: value },
+                        mobileNumberError: '',
+                    });
+                } else {
+                    this.setState({
+                        mobileNumberError: 'Mobile number should be 10 digits',
+                    });
+                }
+                break;
+            default:
+                break;
+        }
+    };
+      
 
     handleSubmit = async( e ) => {
         e.preventDefault();
@@ -210,13 +229,18 @@ console.log(this.state.data);
                                     <div className="form-group col-md-6"></div>
                                     <div className="form-group col-md-6">
                                         <label htmlFor="mobilenumber">Mobile Number <span className="text-danger">*</span></label>
-                                        <Input type="text"className="form-control" id="mobilenumber" name="mobileNumber" 
+                                        <Input type="text"
+                                            className={ classnames('form-control', { 'is-invalid': this.state.mobileNumberError }) }
+                                            id="mobilenumber" name="mobileNumber" 
                                             placeholder={ this.state.placeholder }
                                             onMouseEnter={ this.handleHover }
                                             onMouseLeave={ this.handleMouseOut }
                                             value={ data.mobileNumber }
                                             onChange={ this.handleInputChange }
                                         />
+                                        { this.state.mobileNumberError ? (
+                                            <div className="invalid-feedback">{ this.state.mobileNumberError }</div>
+                                        ) : null }
                                     </div>
                                     <div className="form-group col-md-6"></div>
                                     <div className="form-group col-md-6">
@@ -308,18 +332,10 @@ console.log(this.state.data);
                                             maxLength={ 16 }
                                             
                                         />
-                                    
+                                        <div className="form-group col-md-6"> 
+                                        </div>
                                     </div>
-                                    <div className="form-group col-md-6"> 
-                                    </div>
-                                    <div className="form-group col-md-6 text-sm">max of 16 characters allowed 
-                                    </div>
-                                    <div className="form-group col-md-6"> 
-                                    </div>
-                                    
-                                    <div className="form-group col-md-6">
-                                        { /* <label htmlFor="bib">Blood Group <span className="text-danger">*</span></label> */ }
-                                    </div>
+                                   
                                     <div className="form-group col-md-6"> 
                                     </div>
                                     <div className="form-group col-md-6">
