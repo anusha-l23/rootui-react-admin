@@ -33,13 +33,13 @@ class ComponentChartsChartistPage extends Component {
                 <PageContent
                     sideNav={ [
                         {
-                            to: '#chartLine',
-                            title: 'Line',
-                        }, {
                             to: '#chartBar',
                             title: 'Bar',
                         }, {
-                            to: '#chartPie',
+                            to: '#pieGender',
+                            title: 'Pie',
+                        }, {
+                            to: '#pieSize',
                             title: 'Pie',
                         },
                     ] }
