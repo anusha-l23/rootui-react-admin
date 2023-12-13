@@ -186,26 +186,29 @@ const settings = {
                 //         },
                 //     },
                 // },
-                '/component-charts-chartjs': {
-                    name: 'Charts',
-                    sub: {
-                        // '/component-charts-chartjs': {
-                        //     name: 'Chart.js',
-                        // },
-                        '/component-charts-chartist': {
-                            name: 'Chartist',
-                        },
-                        // '/component-charts-peity': {
-                        //     name: 'Peity',
-                        // },
-                        // '/component-charts-echarts': {
-                        //     name: 'eCharts',
-                        // },
-                        // '/component-charts-flot': {
-                        //     name: 'Flot',
-                        // },
-                    },
+                '/component-charts-chartist': {
+                    name: 'Chartist',
                 },
+                // '/component-charts-chartjs': {
+                //     name: 'Charts',
+                //     sub: {
+                //         // '/component-charts-chartjs': {
+                //         //     name: 'Chart.js',
+                //         // },
+                //         '/component-charts-chartist': {
+                //             name: 'Chartist',
+                //         },
+                //         // '/component-charts-peity': {
+                //         //     name: 'Peity',
+                //         // },
+                //         // '/component-charts-echarts': {
+                //         //     name: 'eCharts',
+                //         // },
+                //         // '/component-charts-flot': {
+                //         //     name: 'Flot',
+                //         // },
+                //     },
+                // },
                 // '/component-timeline': {
                 //     name: 'Timeline',
                 // },
