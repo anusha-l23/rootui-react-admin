@@ -42,6 +42,10 @@ class ComponentChartsChartistPage extends Component {
                             to: '#pieSize',
                             title: 'Pie_T-ShirtSize',
                         },
+                        {
+                            to: '#pieRace',
+                            title: 'Pie_RaceCategory',
+                        },
                     ] }
                 >
                     <AsyncComponent component={ () => import( './content' ) } />

@@ -22,36 +22,76 @@ import axios from "axios";
 class Content extends Component {
 state = {
     users: [],
+    events: [],
     userRegistrations: {},
     genderDistribution: {},
     sizeDistribution: {},
+    userEventDistribution: {},
 };
   
 componentDidMount() {
+    this.fetchEvents();
     this.getAllUsers();
 }
   
-    getAllUsers = async() => {
-        /* eslint-disable */
+  fetchEvents = async() => {
       try {
-        const response = await axios.get('http://localhost:3001/santarun/users');
-        const users = response.data;
-        this.setState({ users }, () => {
-          this.prepareChartData();
-          this.prepareGenderData();
-          this.prepareSizeData();
-        });
+          const response = await axios.get("http://localhost:3001/santarun/events");
+          this.setState({ events: response.data });
+          /* eslint-disable */
+          console.log(this.state.events, "events");
+          
       } catch (error) {
-        throw error;
+          throw error;
       }
-    };
+  }
+  getAllUsers = async() => {
+    /* eslint-disable */
+  try {
+    const response = await axios.get('http://localhost:3001/santarun/users');
+    const users = response.data;
+
+    this.setState({ users }, () => {
+      this.prepareChartData();
+      this.prepareGenderData();
+      this.prepareSizeData();
+      this.prepareEventUserData();
+    });
   
+    console.log(this.state.users, "users");
+  } catch (error) {
+    this.setState({ isLoading: false });
+    throw error;
+  }
+};
+
+  prepareEventUserData = () => {
+    const { users, events } = this.state;
+    const userEventDistribution = {};
+    console.log(events, "events")
+    users.forEach(user => {
+      const event = events.find(event => event.id === user.eventId);
+      console.log(event, "event")
+      const eventName = event && event.eventName;
+  
+      if (userEventDistribution[eventName]) {
+        userEventDistribution[eventName]++;
+      } else {
+        userEventDistribution[eventName] = 1;
+      }
+    });
+  
+    this.setState({ userEventDistribution });
+  };
+  
+
     prepareChartData = () => {
+       
       const { users } = this.state;
       const userRegistrations = {};
   
       users.forEach(user => {
-        const createdAt = new Date(user.createdAt).toLocaleDateString(); // Convert date to a string (MM/DD/YYYY format)
+        const createdAt = new Date(user.createdAt).toLocaleDateString();
         if (userRegistrations[createdAt]) {
           userRegistrations[createdAt]++;
         } else {
@@ -90,8 +130,9 @@ users.forEach(user=> {
     this.setState({ sizeDistribution });
 })
   }
+
     render() {
-      const { userRegistrations, genderDistribution, sizeDistribution } = this.state;
+      const { userRegistrations, genderDistribution, sizeDistribution, userEventDistribution } = this.state;
       const sortedDates = Object.keys(userRegistrations).sort((a, b) => {
         const dateA = new Date(a.split('/').reverse().join('-'));
         const dateB = new Date(b.split('/').reverse().join('-'));
@@ -155,7 +196,7 @@ users.forEach(user=> {
           },
         ],
       };
-      const sizeOptions = {
+      const genderOptions = {
         plugins: {
           legend: {
             display: true,
@@ -175,7 +216,7 @@ users.forEach(user=> {
           },
         ],
       };
-      const genderOptions = {
+      const sizeOptions = {
         plugins: {
           legend: {
             display: true,
@@ -183,6 +224,29 @@ users.forEach(user=> {
           },
         },
       };
+
+      const eventUserData = {
+        labels: Object.keys(userEventDistribution),
+        datasets: [
+          {
+            label: 'User Distribution per Event',
+            data: Object.values(userEventDistribution),
+            backgroundColor: ['rgba(135,206,235)', 'rgba(94, 119, 255, 0.8)', 'rgba(70,130,180)', 'rgba(0,191,255)'],
+            borderColor: ['rgba(135,206,250)', '', 'rgba(94, 119, 255, 1)', 'rgba(100,149,237)', 'rgba(30,144,255)',],
+            borderWidth: 1,
+          },
+        ],
+      };
+  
+      const eventUserOptions = {
+        plugins: {
+          legend: {
+            display: true,
+            position: 'right',
+          },
+        },
+      };
+
         return (
             <div style={{ width: "70%"}}>
                 <h2 id="chartBar">Bar</h2>
@@ -190,13 +254,17 @@ users.forEach(user=> {
  <Bar data={data} options={options} />
 
                 <div className="rui-gap-4" id="pieGender"></div>
-                <h2>Pie_Gender</h2>
+                <h2>Gender</h2>
                 
  <Pie data={genderData} options={genderOptions} />
 
                 <div className="rui-gap-4" id="pieSize"></div>
-                <h2>Pie_T-Shirt size</h2>
+                <h2>T-Shirt Size</h2>
                 <Pie data={sizeData} options={sizeData} />
+
+                <div className="rui-gap-4" id="pieRace"></div>
+                <h2>Race Category</h2>
+                <Pie data={eventUserData} options={eventUserOptions} />
             </div>
         );
     }
